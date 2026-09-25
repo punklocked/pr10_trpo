@@ -1,0 +1,1 @@
+{"ID":"99975","Name":"\u0444\u044B\u0432","LastName":"\u0430\u043F\u0432\u043F\u0430\u0432","MiddleName":"\u043E\u0440\u043F\u043E\u043F\u0440","Specialization":"\u044B\u0444\u0432","Password":"12345678","RepeatPassword":"12345678"}

@@ -143,3 +143,4 @@ C:\Users\Natvoril\Desktop\pr10_trpo-master\obj\Debug\net8.0-windows\pract8_trpo.
 C:\Users\Natvoril\Desktop\pr10_trpo-master\obj\Debug\net8.0-windows\pract8_trpo.genruntimeconfig.cache
 C:\Users\Natvoril\Desktop\pr10_trpo-master\obj\Debug\net8.0-windows\ref\pract8_trpo.dll
 C:\Users\Natvoril\Desktop\pr10_trpo-master\obj\Debug\net8.0-windows\pract8_t.58704425.Up2Date
+C:\Users\Natvoril\Desktop\pr10_trpo-master\obj\Debug\net8.0-windows\pract8_trpo.sourcelink.json

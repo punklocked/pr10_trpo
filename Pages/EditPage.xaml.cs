@@ -60,14 +60,29 @@ namespace pract8_trpo.Pages
 
         private void EditPatient_Click(object sender, RoutedEventArgs e)
         {
+            if (HasValidationErrors())
+            {
+                MessageBox.Show("Исправьте ошибки валидации");
+                return;
+            }
+
             if (File.Exists($"P_{currentPatient.ID}.txt"))
             {
-                string jsonString = JsonSerializer.Serialize(currentPatient);
                 currentPatient.LastDoctorName = GetDoctorByID(currentPatient.LastDoctor.ToString());
+                string jsonString = JsonSerializer.Serialize(currentPatient);
                 File.WriteAllText($"P_{currentPatient.ID}.txt", jsonString);
                 MessageBox.Show($"Данные о пациенте обновлены");
                 NavigationService.GoBack();
             }
+        }
+
+        private bool HasValidationErrors()
+        {
+            return Validation.GetHasError(TextBoxName) ||
+                   Validation.GetHasError(TextBoxLastName) ||
+                   Validation.GetHasError(TextBoxMiddleName) ||
+                   Validation.GetHasError(TextBoxPhone) ||
+                   Validation.GetHasError(BirthdayPicker);
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
