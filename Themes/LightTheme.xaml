@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="Background" Color="#FAFAFA"/>
+    <SolidColorBrush x:Key="Foreground" Color="#1F1F1F"/>
+    <SolidColorBrush x:Key="HoverBackground" Color="#4F8FDD"/>
+    <SolidColorBrush x:Key="ButtonBackground" Color="#2B7CD3"/>
+    <SolidColorBrush x:Key="ButtonHover" Color="#1F66B0"/>
+    <SolidColorBrush x:Key="ButtonPressed" Color="#194F8A"/>
+    <SolidColorBrush x:Key="ButtonForeground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="ButtonBorder" Color="#1F66B0"/>
+
+    <SolidColorBrush x:Key="ButtonAddBackground" Color="#5FC46A"/>
+    <SolidColorBrush x:Key="ButtonAddHover" Color="#3E8F47"/>
+    <SolidColorBrush x:Key="ButtonAddPressed" Color="#2F6B36"/>
+
+    <SolidColorBrush x:Key="ButtonRemoveBackground" Color="#E04B4B"/>
+    <SolidColorBrush x:Key="ButtonRemoveHover" Color="#B23737"/>
+    <SolidColorBrush x:Key="ButtonRemovePressed" Color="#7E2626"/>
+
+    <SolidColorBrush x:Key="TextBoxBackground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="TextBoxForeground" Color="#1F1F1F"/>
+
+    <SolidColorBrush x:Key="MenuItemHoverBackground" Color="#E0E0E0"/>
+    <SolidColorBrush x:Key="MenuItemHoverForeground" Color="#1F1F1F"/>
+
+</ResourceDictionary>
