@@ -72,11 +72,12 @@ namespace pract8_trpo.Pages
                 return;
             }
 
-            if (registeredDoctor.Name != null &&
-                registeredDoctor.LastName != null &&
-                registeredDoctor.MiddleName != null &&
-                registeredDoctor.Specialization != null &&
-                registeredDoctor.Password != null)
+            if (!string.IsNullOrWhiteSpace(registeredDoctor.Name) &&
+                !string.IsNullOrWhiteSpace(registeredDoctor.LastName) &&
+                !string.IsNullOrWhiteSpace(registeredDoctor.MiddleName) &&
+                !string.IsNullOrWhiteSpace(registeredDoctor.Specialization) &&
+                !string.IsNullOrWhiteSpace(registeredDoctor.Password) &&
+                !string.IsNullOrWhiteSpace(registeredDoctor.RepeatPassword))
             {
                 if (registeredDoctor.Password == registeredDoctor.RepeatPassword)
                 {
@@ -104,6 +105,13 @@ namespace pract8_trpo.Pages
 
         private bool HasValidationErrors()
         {
+            TextBoxName.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxLastName.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxMiddleName.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxSpecialization.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxPassword.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxRepeatPassword.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+
             return Validation.GetHasError(TextBoxName) ||
                    Validation.GetHasError(TextBoxLastName) ||
                    Validation.GetHasError(TextBoxMiddleName) ||

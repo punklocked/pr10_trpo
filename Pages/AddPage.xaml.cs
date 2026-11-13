@@ -92,11 +92,10 @@ namespace pract8_trpo.Pages
                     return;
                 }
 
-                if (addedPatient.Name != null &&
-                    addedPatient.LastName != null &&
-                    addedPatient.MiddleName != null &&
-                    addedPatient.Birthday != null &&
-                    addedPatient.PhoneNumber != null)
+                if (!string.IsNullOrWhiteSpace(addedPatient.Name) &&
+                    !string.IsNullOrWhiteSpace(addedPatient.LastName) &&
+                    !string.IsNullOrWhiteSpace(addedPatient.MiddleName) &&
+                    !string.IsNullOrWhiteSpace(addedPatient.PhoneNumber))
                 {
                     addedPatient.LastDoctor = Convert.ToInt32(currentDoctor.ID);
                     string ID = CreatePatientID();
@@ -124,6 +123,12 @@ namespace pract8_trpo.Pages
 
         private bool HasValidationErrors()
         {
+            TextBoxName.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxLastName.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxMiddleName.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxPhone.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            BirthdayPicker.GetBindingExpression(DatePicker.SelectedDateProperty)?.UpdateSource();
+
             return Validation.GetHasError(TextBoxName) ||
                    Validation.GetHasError(TextBoxLastName) ||
                    Validation.GetHasError(TextBoxMiddleName) ||

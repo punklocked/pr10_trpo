@@ -35,7 +35,14 @@ namespace pract8_trpo.Pages
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (currentDoctor.ID != string.Empty)
+            if (HasValidationErrors())
+            {
+                MessageBox.Show("Исправьте ошибки валидации");
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(currentDoctor.ID) &&
+                !string.IsNullOrWhiteSpace(currentDoctor.Password))
             {
                 if (File.Exists($"D_{currentDoctor.ID}.txt"))
                 {
@@ -62,6 +69,13 @@ namespace pract8_trpo.Pages
             {
                 MessageBox.Show("Все поля должны быть заполнены");
             }
+        }
+
+        private bool HasValidationErrors()
+        {
+            IDTextBox.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxPassword.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            return Validation.GetHasError(IDTextBox) || Validation.GetHasError(TextBoxPassword);
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)

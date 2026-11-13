@@ -52,7 +52,7 @@
                             <TextBox.Text>
                                 <Binding Path="Diagnosis" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
-                                        <validators:StringValidation/>
+                                        <validators:StringValidation MinimumLength="2" MaximumLength="2000" AllowDigits="True"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -72,7 +72,7 @@
                             <TextBox.Text>
                                 <Binding Path="Recommendations" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
-                                        <validators:StringValidation/>
+                                        <validators:StringValidation MinimumLength="2" MaximumLength="2000" AllowDigits="True"/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>

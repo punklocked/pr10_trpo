@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace pract8_trpo.Data.Validators
@@ -12,20 +9,18 @@ namespace pract8_trpo.Data.Validators
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-
-            if (value == null)
+            string input = value?.ToString() ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(input))
             {
                 return new ValidationResult(false, "Значение не может быть пустым");
             }
 
-            var input = value.ToString();
-
             if (input.Length != 11)
             {
-                return new ValidationResult(false, "Номер телефона состоит из 11 символов");
+                return new ValidationResult(false, "Номер телефона состоит из 11 цифр");
             }
 
-            if (input.Any(character => !char.IsDigit(character)))
+            if (input.Any(character => !char.IsAsciiDigit(character)))
             {
                 return new ValidationResult(false, "Номер телефона состоит только из цифр");
             }

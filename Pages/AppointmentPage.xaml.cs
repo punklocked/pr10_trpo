@@ -46,16 +46,45 @@ namespace pract8_trpo.Pages
 
         private void EditPatient_Click(object sender, RoutedEventArgs e)
         {
-            if (File.Exists($"P_{currentPatient.ID}.txt"))
+            if (HasValidationErrors())
             {
-                Appointment appointment = new Appointment() { Date = DateTime.Today, Diagnosis = currentPatient.Diagnosis, Doctor_ID = currentPatient.LastDoctor, Recommendations = currentPatient.Recommendations };
-                currentPatient.AppointmentStories.Add(appointment);
-                string jsonString = JsonSerializer.Serialize(currentPatient);
-                currentPatient.LastDoctorName = GetDoctorByID(currentPatient.LastDoctor.ToString());
-                File.WriteAllText($"P_{currentPatient.ID}.txt", jsonString);
-                MessageBox.Show($"Данные о пациенте обновлены");
-                NavigationService.GoBack();
+                MessageBox.Show("Исправьте ошибки валидации");
+                return;
             }
+
+            if (string.IsNullOrWhiteSpace(currentPatient.Diagnosis) ||
+                string.IsNullOrWhiteSpace(currentPatient.Recommendations))
+            {
+                MessageBox.Show("Заполните диагноз и рекомендации");
+                return;
+            }
+
+            if (!File.Exists($"P_{currentPatient.ID}.txt"))
+            {
+                MessageBox.Show("Файл пациента не найден");
+                return;
+            }
+
+            currentPatient.LastDoctorName = GetDoctorByID(currentPatient.LastDoctor.ToString());
+            Appointment appointment = new()
+            {
+                Date = DateTime.Today,
+                Diagnosis = currentPatient.Diagnosis,
+                Doctor_ID = currentPatient.LastDoctor,
+                Recommendations = currentPatient.Recommendations
+            };
+            currentPatient.AppointmentStories.Add(appointment);
+            string jsonString = JsonSerializer.Serialize(currentPatient);
+            File.WriteAllText($"P_{currentPatient.ID}.txt", jsonString);
+            MessageBox.Show("Данные о пациенте обновлены");
+            NavigationService.GoBack();
+        }
+
+        private bool HasValidationErrors()
+        {
+            TextBoxDiagnosis.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxRecomendations.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            return Validation.GetHasError(TextBoxDiagnosis) || Validation.GetHasError(TextBoxRecomendations);
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

@@ -12,22 +12,20 @@ namespace pract8_trpo.Data.Validators
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-
-            var inputString = value.ToString();
-
-            if (inputString == string.Empty)
+            string inputString = value?.ToString() ?? string.Empty;
+            if (inputString.Length == 0)
             {
                 return ValidationResult.ValidResult;
             }
 
-            if (!int.TryParse(inputString, out int intValue))
-            {
-                return new ValidationResult(false, $"ID состоит только из цифр");
-            }
-
             if (inputString.Length > 7)
             {
-                return new ValidationResult(false, $"ID пациента не может быть больше 7 цифр");
+                return new ValidationResult(false, "ID пациента не может быть больше 7 цифр");
+            }
+
+            if (inputString.Any(character => !char.IsAsciiDigit(character)))
+            {
+                return new ValidationResult(false, "ID состоит только из цифр");
             }
 
             return ValidationResult.ValidResult;

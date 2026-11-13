@@ -1,42 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace pract8_trpo.Data.Converters
 {
     class AppointmentConverter : IValueConverter
     {
-        public object Convert(object value, Type tagetType, object parameter, CultureInfo cultureinfo)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo cultureInfo)
         {
-            if (value == null)
+            if (value is not IEnumerable<Appointment> appointments)
             {
                 return string.Empty;
             }
-            ObservableCollection<Appointment> appointments = (ObservableCollection<Appointment>)value;
-            if (appointments.Count == 0)
+
+            DateTime[] appointmentDates = appointments
+                .Where(appointment => appointment != null)
+                .Select(appointment => appointment.Date.Date)
+                .ToArray();
+            if (appointmentDates.Length == 0)
             {
                 return "Первый приём в клинике";
             }
-            TimeSpan timeSinceLastAppointmnent = DateTime.Today - appointments[appointments.Count - 1].Date;
-            if (timeSinceLastAppointmnent.Days == 0)
+
+            DateTime lastAppointment = appointmentDates.Max();
+            if (lastAppointment > DateTime.Today)
             {
-                return $"Последний приём был сегодня";
+                return $"Следующий приём: {lastAppointment.ToString("dd.MM.yyyy", cultureInfo)}";
             }
-            return $"Дней с последнего приёма: {Math.Ceiling(timeSinceLastAppointmnent.TotalDays)}";
+
+            int daysSinceLastAppointment = (DateTime.Today - lastAppointment).Days;
+            return daysSinceLastAppointment == 0
+                ? "Последний приём был сегодня"
+                : $"Дней с последнего приёма: {daysSinceLastAppointment}";
         }
+
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo cultureInfo)
         {
-            return null;
-        }
-        public int GetDays(DateTime lastAppointment)
-        {
-            DateTime dateToday = DateTime.Today;
-            return dateToday.Day - lastAppointment.Day;
+            return Binding.DoNothing;
         }
     }
 }

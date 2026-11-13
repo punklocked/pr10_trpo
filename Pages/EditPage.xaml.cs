@@ -66,18 +66,36 @@ namespace pract8_trpo.Pages
                 return;
             }
 
-            if (File.Exists($"P_{currentPatient.ID}.txt"))
+            if (string.IsNullOrWhiteSpace(currentPatient.Name) ||
+                string.IsNullOrWhiteSpace(currentPatient.LastName) ||
+                string.IsNullOrWhiteSpace(currentPatient.MiddleName) ||
+                string.IsNullOrWhiteSpace(currentPatient.PhoneNumber))
             {
-                currentPatient.LastDoctorName = GetDoctorByID(currentPatient.LastDoctor.ToString());
-                string jsonString = JsonSerializer.Serialize(currentPatient);
-                File.WriteAllText($"P_{currentPatient.ID}.txt", jsonString);
-                MessageBox.Show($"Данные о пациенте обновлены");
-                NavigationService.GoBack();
+                MessageBox.Show("Все поля должны быть заполнены");
+                return;
             }
+
+            if (!File.Exists($"P_{currentPatient.ID}.txt"))
+            {
+                MessageBox.Show("Файл пациента не найден");
+                return;
+            }
+
+            currentPatient.LastDoctorName = GetDoctorByID(currentPatient.LastDoctor.ToString());
+            string jsonString = JsonSerializer.Serialize(currentPatient);
+            File.WriteAllText($"P_{currentPatient.ID}.txt", jsonString);
+            MessageBox.Show("Данные о пациенте обновлены");
+            NavigationService.GoBack();
         }
 
         private bool HasValidationErrors()
         {
+            TextBoxName.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxLastName.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxMiddleName.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            TextBoxPhone.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+            BirthdayPicker.GetBindingExpression(DatePicker.SelectedDateProperty)?.UpdateSource();
+
             return Validation.GetHasError(TextBoxName) ||
                    Validation.GetHasError(TextBoxLastName) ||
                    Validation.GetHasError(TextBoxMiddleName) ||

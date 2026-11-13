@@ -12,22 +12,20 @@ namespace pract8_trpo.Data.Validators
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-
-            var inputString = value.ToString();
-
-            if (value == null)
+            string inputString = value?.ToString() ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(inputString))
             {
                 return new ValidationResult(false, "Значение не может быть пустым");
             }
 
-            if (!int.TryParse(inputString, out int intValue))
-            {
-                return new ValidationResult(false, $"ID состоит только из цифр");
-            }
-
             if (inputString.Length != 5)
             {
-                return new ValidationResult(false, $"ID состоит из 5 символов");
+                return new ValidationResult(false, "ID состоит из 5 цифр");
+            }
+
+            if (inputString.Any(character => !char.IsAsciiDigit(character)))
+            {
+                return new ValidationResult(false, "ID состоит только из цифр");
             }
 
             return ValidationResult.ValidResult;

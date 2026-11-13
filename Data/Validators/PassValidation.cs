@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace pract8_trpo.Data.Validators
@@ -12,16 +8,15 @@ namespace pract8_trpo.Data.Validators
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            if (value == null)
+            if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
             {
                 return new ValidationResult(false, "Значение не может быть пустым");
             }
 
-            var inputString = value.ToString();
-
+            string inputString = value.ToString();
             if (inputString.Length < 8)
             {
-                return new ValidationResult(false, $"Пароль должен содержать минимум 8 символов");
+                return new ValidationResult(false, "Пароль должен содержать минимум 8 символов");
             }
             if (inputString.Length > 50)
             {

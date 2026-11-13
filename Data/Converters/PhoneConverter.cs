@@ -10,7 +10,7 @@ namespace pract8_trpo.Data.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is not string phone || phone.Length != 11 ||
-                phone[0] != '8' || phone.Any(character => !char.IsDigit(character)))
+                phone[0] != '8' || phone.Any(character => !char.IsAsciiDigit(character)))
             {
                 return value?.ToString() ?? string.Empty;
             }

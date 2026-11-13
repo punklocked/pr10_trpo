@@ -1,40 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace pract8_trpo.Data.Converters
 {
     class AgeConverter : IValueConverter
     {
-        public object Convert(object value, Type tagetType, object parameter, CultureInfo cultureinfo)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo cultureInfo)
         {
-            if (value == null)
+            if (value is not DateTime birthday &&
+                (value == null || !DateTime.TryParse(value.ToString(), cultureInfo, DateTimeStyles.None, out birthday)))
             {
                 return string.Empty;
             }
-            int age = GetAge(DateTime.Parse(value.ToString()));
-            if (age < 18)
+
+            if (birthday.Date > DateTime.Today)
             {
-                return $"{age} Несовершеннолетний";
+                return string.Empty;
             }
-            else if (age >= 18)
-            {
-                return $"{age} Совершеннолетний";
-            }
-            return string.Empty;
+
+            int age = GetAge(birthday);
+            return age < 18
+                ? $"{age} Несовершеннолетний"
+                : $"{age} Совершеннолетний";
         }
+
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo cultureInfo)
         {
-            return null;
+            return Binding.DoNothing;
         }
+
         public int GetAge(DateTime birthday)
         {
-            DateTime dateToday = DateTime.Today;
-            return dateToday.Year - birthday.Year;
+            int age = DateTime.Today.Year - birthday.Year;
+            if (birthday.Date > DateTime.Today.AddYears(-age))
+            {
+                age--;
+            }
+
+            return age;
         }
     }
 }
